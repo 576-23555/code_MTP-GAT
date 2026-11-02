@@ -1,4 +1,4 @@
-# ====== 通用配置 ======
+
 batch_size: 32
 epochs: 200
 device: cuda 
@@ -42,7 +42,7 @@ optim:
   reg_coeff_molsim: 0.1 
   reg_coeff_actcliff: 0.1 
 
-# ====== 数据集配置 ======
+
 dataset:
   data_dir: /data/pretrain 
   mol_sim_data_file: pretain.csv 
