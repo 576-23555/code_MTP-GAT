@@ -1,9 +1,6 @@
 
-# -*- coding: utf-8 -*-
-
 import time
 import warnings
-
 import numpy as np
 import torch
 import torch.nn.functional as F
@@ -20,10 +17,6 @@ try:
 except Exception:
     _HAS_BOTORCH = False
 
-
-# ======================================================================
-# Basic utilities
-# ======================================================================
 def get_probs(logits, temperature=1.0):
     logits = torch.as_tensor(logits)
     return F.softmax(logits / max(float(temperature), 1e-8), dim=-1)
@@ -61,10 +54,6 @@ def _mean_distance(emb, pairs, weights=None):
 def _warn_once(msg):
     warnings.warn(msg, RuntimeWarning, stacklevel=3)
 
-
-# ======================================================================
-# Core: AW-NCR
-# ======================================================================
 def compute_aw_ncr(graph_reps,
                    logits,
                    noncliff_pairs,
@@ -178,10 +167,6 @@ def build_pairs_from_labels(labels,
 
     return nc_pairs, nc_w, ac_pairs, ac_w
 
-
-# ======================================================================
-# Bayesian optimization
-# ======================================================================
 def _to_logits(x):
     x = torch.as_tensor(x).double()
     return torch.cat([torch.zeros_like(x), x], dim=1)
@@ -448,10 +433,6 @@ def optimize_moe_init_weights(graph_reps,
 
     return best_logits.detach(), best_probs.detach()
 
-
-# ======================================================================
-# Entry point for finetune.py
-# ======================================================================
 def optimize_prompt_weight_ri(graph_reps,
                               labels,
                               n_runs=50,
