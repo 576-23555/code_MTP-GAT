@@ -1,0 +1,69 @@
+batch_size: 32
+epochs: 800
+device: cuda
+verbose: True
+
+model:
+  name: gat
+  checkpoint:
+  attention_reg_coeff: 0.001
+  aggr_head: 4
+  layer_norm_out: True
+  aux_context: False
+  aux_motif: False
+
+  dropout_ratio: 0.25
+  temperature: 0.5
+  attn_dropout_ratio: 0.3
+
+  layernorm: True
+  use_prompt: True
+  use_moe: True
+  normalize: True
+
+  num_tasks: 1
+  freeze_gnn: False
+  freeze_aggr: True
+
+  return_attention_weights: False
+
+  gnn_params_gat:
+    in_feats: 144
+    hidden_feats: 256
+    out_feats: 16
+    num_layers: 4
+    num_heads: 8
+    final_out_dim: 1
+    dropout: 0.01
+    alpha: 0.50
+    use_norm: True
+    norm_type: layernorm
+
+optim:
+  prompt_lr: 0.0001
+  pretrain_lr: 0.0001
+  finetune_lr: 0.01
+  decay: 0.0001
+  gradient_clip: 5
+  scheduler: cos_anneal
+  min_lr: 0.0001
+
+prompt_optim:
+  skip_bo: True
+  n_runs: 50
+  n_inits: 50
+  n_points: 5
+  n_restarts: 512
+  n_samples: 512
+  cliff_delta: 1.0
+  noncliff_delta: 0.2
+  max_pairs: 20000
+
+finetune:
+  val_ratio: 0.1
+
+dataset:
+  data_dir: ./data/finetune
+  num_workers: 0
+  feat_type: rich
+  task: regression

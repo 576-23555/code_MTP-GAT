@@ -1,0 +1,51 @@
+# ====== 通用配置 ======
+batch_size: 32
+epochs: 200
+device: cuda 
+output_dir: ./checkpoint
+start_epoch: 0
+method: 'MTP-GAT' 
+load_processed: true
+
+model:
+  attention_reg_coeff: 0.001
+  aggr_head: 4 
+  layer_norm_out: True 
+  checkpoint: null 
+  aux_context: False 
+  aux_motif: False 
+  dropout_ratio: 0.25 
+
+
+  name: gat
+  gnn_params_gat:
+    in_feats: 144
+    hidden_feats: 256  
+    out_feats: 16
+    num_layers: 5
+    num_heads: 8          
+    final_out_dim: 1
+    dropout: 0.1
+    alpha: 0.2
+
+optim:
+  lr: 0.0001
+  decay: 1e-3 
+  margin: 0.6 
+  num_candidates: 3 
+  accum_iter: 1
+  distance_metric: l2norm 
+  adamg_coeff: 1 
+  knowledge_guided: True 
+  num_additional_negatives: 5 
+  num_explicit_negatives: 1 
+  reg_coeff_molsim: 0.1 
+  reg_coeff_actcliff: 0.1 
+
+# ====== 数据集配置 ======
+dataset:
+  data_dir: /data/pretrain 
+  mol_sim_data_file: pretain.csv 
+  feat_type: rich
+
+
